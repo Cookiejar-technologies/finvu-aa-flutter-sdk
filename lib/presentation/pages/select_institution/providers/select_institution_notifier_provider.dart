@@ -14,7 +14,7 @@ import '../../../../core/utilities/utils.dart';
 import '../../../../core/utilities/websocket_helper.dart';
 import '../../../models/account_model.dart';
 
-final selectInstitutionNotifierProvider = ChangeNotifierProvider((ref) => SelectInstitutionNotifier(ref));
+final selectInstitutionNotifierProvider = ChangeNotifierProvider<SelectInstitutionNotifier>((ref) => SelectInstitutionNotifier(ref));
 
 class SelectInstitutionNotifier extends ChangeNotifier{
   final Ref _ref;
@@ -75,13 +75,13 @@ class SelectInstitutionNotifier extends ChangeNotifier{
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      print("Discover accounts");
-      print(event);
+      // print("Discover accounts");
+      // print(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         List rawAccounts =  data['payload']["DiscoveredAccounts"];
-        print("rawAccounts");
-        print(rawAccounts);
+        // print("rawAccounts");
+        // print(rawAccounts);
         accounts = rawAccounts.map((e) => Account.fromJson(e)).toList();
         if (accounts.isNotEmpty) {
           onDone();

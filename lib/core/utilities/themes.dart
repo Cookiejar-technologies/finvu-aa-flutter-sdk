@@ -8,6 +8,9 @@ class Themes {
     appBarTheme: const AppBarTheme(
       centerTitle: false,
       backgroundColor: Colors.white,
+      iconTheme: IconThemeData(
+        color: Colors.black,
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -17,7 +20,7 @@ class Themes {
           if(states.contains(MaterialState.disabled)){
             return AppColors.lightGrey;
           }
-          return AppColors.buttonRed;
+          return AppColors.primary;
         }),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -38,7 +41,7 @@ class Themes {
       )
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: AppColors.buttonRed
+      color: AppColors.primary
     ),
     fontFamily: "Raleway",
     // textTheme: ThemeData.light().textTheme.copyWith()

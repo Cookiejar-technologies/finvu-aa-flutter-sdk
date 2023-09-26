@@ -6,7 +6,7 @@ import 'package:finvu_bank_pfm/core/utilities/styleguide.dart';
 import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({super.key});
+  const Footer({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,6 @@ class Formats{
   }
 
   static String parse1(DateTime dt){
-    print(DateFormat("dd MMM yyyy").format(dt));
     return DateFormat("dd MMM yyyy").format(dt);
   }
 

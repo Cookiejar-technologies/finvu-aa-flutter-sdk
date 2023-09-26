@@ -6,7 +6,7 @@ class AppNetworkImage extends StatelessWidget {
   final String url;
   final BoxFit? fit;
   final double? width;
-  const AppNetworkImage({super.key, required this.url, this.fit, this.width});
+  const AppNetworkImage({Key? key, required this.url, this.fit, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AppNetworkImage extends StatelessWidget {
         ),
       errorWidget: (context, url, error) => const Icon(
         Icons.currency_rupee,
-        color: AppColors.buttonRed,
+        color: AppColors.primary,
       ),
     );
   }

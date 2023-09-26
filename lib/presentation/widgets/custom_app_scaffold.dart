@@ -1,35 +1,50 @@
+import 'package:finvu_bank_pfm/core/repository/repository_provider.dart';
 import 'package:finvu_bank_pfm/core/utilities/assets.dart';
+import 'package:finvu_bank_pfm/core/utilities/session_manager.dart';
 import 'package:finvu_bank_pfm/core/utilities/themes.dart';
 import 'package:finvu_bank_pfm/presentation/widgets/pop_dialog.dart';
+import 'package:finvu_bank_pfm/presentation/widgets/timeout_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomAppScaffold extends StatelessWidget {
+class CustomAppScaffold extends ConsumerWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
   final bool shouldPop;
-  CustomAppScaffold({super.key, required this.body, this.appBar, this.shouldPop = false});
+  CustomAppScaffold({Key? key, required this.body, this.appBar, this.shouldPop = false}) : super(key: key);
 
   final PreferredSizeWidget defaultAppBar = AppBar(
     title: Image.asset(
-      Assets.unionBankIcon,
+      Assets.canaraBankIcon,
       package: "finvu_bank_pfm",
     ),
   );
 
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => PopWidget.show(context: context, shouldPop: shouldPop),
-      child: Theme(
-        data: Themes.light,
-        child: Scaffold(
-          appBar: appBar ?? defaultAppBar,
-          body: SafeArea(
-            top: false,
-            left: false,
-            right: false,
-            bottom: true,
-            child: body
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionNotifier = ref.watch(sessionProvider);
+    return Listener(
+      onPointerDown: (val){
+        ref.read(repositoryProvider).onInteraction!();
+      },
+      child: WillPopScope(
+        onWillPop: () => PopWidget.show(context: context, shouldPop: shouldPop),
+        child: Theme(
+          data: Themes.light,
+          child: Scaffold(
+            appBar: appBar ?? defaultAppBar,
+            body: SafeArea(
+              top: false,
+              left: false,
+              right: false,
+              bottom: true,
+              child: Stack(
+                children: [
+                  body,
+                  if(!sessionNotifier.isTimerActive) const ErrorPage()
+                ],
+              )
+            ),
           ),
         ),
       ),

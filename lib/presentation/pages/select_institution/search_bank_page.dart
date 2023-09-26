@@ -1,13 +1,15 @@
 import 'package:finvu_bank_pfm/core/utilities/labels.dart';
 import 'package:finvu_bank_pfm/presentation/widgets/app_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/bank_model.dart';
 
 class SearchBank extends SearchDelegate<Bank?>{
 
   List<Bank> banks;
-  SearchBank({required this.banks});
+  WidgetRef ref;
+  SearchBank({required this.banks, required this.ref});
 
   List<Bank> filter(){
     return List.from(banks.where((e) => e.fipName.toLowerCase().startsWith(query.toLowerCase())));

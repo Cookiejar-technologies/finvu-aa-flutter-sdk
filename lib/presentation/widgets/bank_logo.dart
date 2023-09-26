@@ -12,10 +12,11 @@ class BankLogo extends ConsumerWidget {
   final Bank bank;
   final bool isExpanded;
   final bool readOnly;
-  const BankLogo({super.key, required this.bank, this.isExpanded = true, this.readOnly = false});
+  const BankLogo({Key? key, required this.bank, this.isExpanded = true, this.readOnly = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final container = ProviderScope.containerOf(context);
     final notifier = ref.read(selectInstitutionNotifierProvider);
     return GestureDetector(
       onTap: readOnly ? null : (){
@@ -24,7 +25,7 @@ class BankLogo extends ConsumerWidget {
           notifier.getDiscoveredAccounts(context, (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const VerifyBankAccount())
+              MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const VerifyBankAccount()))
             );
           });
         }

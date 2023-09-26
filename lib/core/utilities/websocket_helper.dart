@@ -20,9 +20,7 @@ class WebSocketHelper{
 
   WebSocketChannel get channel => _channel!;
 
-  add(dynamic data)async{
-    channel.sink.add(data);
-  }
+  add(dynamic data) => channel.sink.add(data);
 
   StreamSubscription get stream => _stream!;
 

@@ -11,11 +11,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/utilities/labels.dart';
 
 class SelectInstitutionPage extends ConsumerWidget {
-  const SelectInstitutionPage({super.key});
+  const SelectInstitutionPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(selectInstitutionNotifierProvider);
+    final mainContainer = ProviderScope.containerOf(context);
+    final notifier = ref.watch(selectInstitutionNotifierProvider);
     return CustomAppScaffold(
       body: SafeArea(
         top: false,
@@ -59,7 +60,7 @@ class SelectInstitutionPage extends ConsumerWidget {
                 childAspectRatio: 1.5
               ),
               itemBuilder: (context, index) {
-                return BankLogo(bank: notifier.banks[index],);
+                return ProviderScope(parent: mainContainer, child: BankLogo(bank: notifier.banks[index],));
               },
             ),
             Sizes.h24,
@@ -67,13 +68,13 @@ class SelectInstitutionPage extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextField(
                 onTap: ()async{
-                  final selBank = await showSearch(context: context, delegate: SearchBank(banks: notifier.banks));
+                  final selBank = await showSearch(context: context, delegate: SearchBank(banks: notifier.banks, ref: ref));
                   if(selBank != null){
                     notifier.selectedBank = selBank;
                     notifier.getDiscoveredAccounts(context, (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const VerifyBankAccount())
+                        MaterialPageRoute(builder: (context) => ProviderScope(parent: mainContainer, child: const VerifyBankAccount()))
                       );
                     });
                   }

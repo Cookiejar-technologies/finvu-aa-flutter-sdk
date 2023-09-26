@@ -16,13 +16,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ConsentPage extends ConsumerWidget {
-  const ConsentPage({super.key});
+  const ConsentPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final container = ProviderScope.containerOf(context);
     final notifier = ref.read(consentNotifierProvider);
     final verifyNotifier = ref.read(verifyAccountNotifierProvider);
     return CustomAppScaffold(
+      shouldPop: true,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -40,7 +42,7 @@ class ConsentPage extends ConsumerWidget {
                   onPressed: (){
                     Navigator.push(
                       context, 
-                      MaterialPageRoute(builder: (context) => const ConsentDetailsPage())
+                      MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const ConsentDetailsPage()))
                     );
                   }
                 )
@@ -83,7 +85,7 @@ class ConsentPage extends ConsumerWidget {
             Sizes.h12,
             ListView(
               shrinkWrap: true,
-              children: verifyNotifier.selectedAccounts.map((e) => BankContainer(isBorder: false, acc: e,)).toList(),
+              children: verifyNotifier.selectedAccounts.map((e) => ProviderScope(parent: container, child: BankContainer(isBorder: false, acc: e,))).toList(),
             ),
             Sizes.h8,
             const Divider(),
@@ -109,7 +111,7 @@ class ConsentPage extends ConsumerWidget {
                   });
                   Navigator.pushReplacement(
                     context, 
-                    MaterialPageRoute(builder: (context) => const FetchLoadingPage())
+                    MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const FetchLoadingPage()))
                   );
                 }
               ),
@@ -120,6 +122,7 @@ class ConsentPage extends ConsumerWidget {
                 label: Labels.deny,
                 onPressed: (){
                   notifier.consentApprovalReq(Constants.deny, (){
+                    Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(Labels.consentDenied),

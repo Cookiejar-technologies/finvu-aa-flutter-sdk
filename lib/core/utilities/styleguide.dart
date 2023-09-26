@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const Color linkBlue = Color.fromRGBO(45, 156, 219, 1);
   static const Color green = Color.fromRGBO(39, 174, 96, 1);
-  static const Color buttonRed = Color.fromRGBO(235, 87, 87, 1);
+  static const Color primary = Color.fromRGBO(43, 146, 229, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
 
   ///greys

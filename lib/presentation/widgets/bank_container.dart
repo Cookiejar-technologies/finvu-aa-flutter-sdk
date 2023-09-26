@@ -10,7 +10,7 @@ import '../models/account_model.dart';
 class BankContainer extends ConsumerWidget {
   final bool isBorder;
   final Account acc;
-  const BankContainer({super.key, required this.acc, this.isBorder = true});
+  const BankContainer({Key? key, required this.acc, this.isBorder = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

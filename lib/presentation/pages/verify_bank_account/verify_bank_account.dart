@@ -15,10 +15,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../consent/consent_page.dart';
 
 class VerifyBankAccount extends ConsumerWidget {
-  const VerifyBankAccount({super.key});
+  const VerifyBankAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final container = ProviderScope.containerOf(context);
+    final mainContainer = ProviderScope.containerOf(context);
     final notifier = ref.watch(verifyAccountNotifierProvider);
     final bankNotifier = ref.watch(selectInstitutionNotifierProvider);
     final userInfoNotifier = ref.read(userInfoProvider);
@@ -39,7 +41,7 @@ class VerifyBankAccount extends ConsumerWidget {
             ),
             Sizes.h16,
             ...bankNotifier.accounts.map((e) {
-              return BankContainer(acc: e);
+              return ProviderScope(parent: mainContainer, child: BankContainer(acc: e));
             },),
             Sizes.h24,
             Text(Labels.willSendOtp(bankNotifier.selectedBank!.fipName),
@@ -63,14 +65,14 @@ class VerifyBankAccount extends ConsumerWidget {
                               ),
                               context: context,
                               builder: (context){
-                                return const OtpWidget();
+                                return ProviderScope(parent: container, child: const OtpWidget());
                               }
                           );
                         },
                         ifVerified: (){
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const ConsentPage())
+                            MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const ConsentPage()))
                           );
                         }
                       );

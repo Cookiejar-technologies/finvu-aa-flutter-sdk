@@ -33,7 +33,7 @@ class Labels{
   static const String dataStore = "Data Store";
   static const String consentExpiry = "Consent Expiry";
   static const String okay = "OKAY";
-  static const String safelyFetchingAccount = "Safely fetching account statement via\nFinvu Account Aggregator....";
+  static const String safelyFetchingAccount = "Safely fetching account statement via\nFinvu Account Aggregator....\n\nYou will be redirected in 5 seconds.";
   static const String noResultsFound = "No results found!";
   static const String confirm = "CONFIRM";
   static const String poweredBy = "Powered by ";
@@ -41,6 +41,8 @@ class Labels{
   static const String pressingBack = "Pressing back will terminate the account linking flow. Are you sure you want to proceed?";
   static const String yesTerminate = "Yes, terminate";
   static const String noProceed = "No, proceed";
+  static const String sessionTimeout = "Session Timeout!";
+  static const String goBack = "Go Back";
 
   static String enterOtpSent(String mobNo) => "Please enter OTP sent to your mobile no $mobNo for verification";
   static String enterOtpReceived(String mobNo) => "Enter OTP received on $mobNo";

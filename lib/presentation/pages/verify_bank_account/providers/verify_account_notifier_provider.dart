@@ -68,13 +68,13 @@ class VerifyAccountNotifier extends ChangeNotifier{
       }
     };
 
-    print(body);
+    // print(body);
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      print("Acc Linking start");
-      print(event);
+      // print("Acc Linking start");
+      // print(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         _otpRef = data['payload']['RefNumber'];
@@ -111,16 +111,18 @@ class VerifyAccountNotifier extends ChangeNotifier{
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      print("User linked accounts");
-      log(event);
+      // print("User linked accounts");
+      // log(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         linkedAccounts = data['payload']['LinkedAccounts'].map<LinkedAccount>((e) => LinkedAccount.fromJson(e)).toList();
         if (linkedAccounts != null) {
           for (var e in linkedAccounts!) {
-            selectedAccounts.where((acc) => acc.accRefNumber == e.accRefNumber).first.linkRefNumber = e.linkRefNumber;
+            if (selectedAccounts.where((acc) => acc.accRefNumber == e.accRefNumber).isNotEmpty) {
+              selectedAccounts.where((acc) => acc.accRefNumber == e.accRefNumber).first.linkRefNumber = e.linkRefNumber;
+            }
           }
-          print("Yoooo! Got the linkRefNo Bro");
+          // print("Yoooo! Got the linkRefNo Bro");
           onDone();
         }
       }
@@ -139,13 +141,13 @@ class VerifyAccountNotifier extends ChangeNotifier{
       }
     };
 
-    print(body);
+    // print(body);
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      print("Acc Linking verification start");
-      print(event);
+      // print("Acc Linking verification start");
+      // print(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         final List accLinkDetails = data['payload']['AccLinkDetails'];

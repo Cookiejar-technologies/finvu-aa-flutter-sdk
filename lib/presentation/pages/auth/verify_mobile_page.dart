@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 class VerifyMobilePage extends ConsumerStatefulWidget {
-  const VerifyMobilePage({super.key});
+  const VerifyMobilePage({Key? key}) : super(key: key);
 
   @override
   ConsumerState<VerifyMobilePage> createState() => _VerifyMobilePageState();
@@ -56,9 +56,11 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final container = ProviderScope.containerOf(context);
     final notifier = ref.watch(authNotifierProvider);
     final userInfoNotifier = ref.read(userInfoProvider);
     return CustomAppScaffold(
+      shouldPop: true,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -84,6 +86,7 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
                   notifier.otp = val;
                 },
                 validator: (v) => v!.isEmpty ? Labels.pleaseEnterOtp : null,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   border: OutlineInputBorder(
@@ -116,9 +119,9 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
                 onPressed: (){
                   if (formKey.currentState!.validate()) {
                     notifier.verifyOtp(context, (){
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SelectInstitutionPage())
+                        MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const SelectInstitutionPage()))
                       );
                     });
                   }

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OtpWidget extends ConsumerStatefulWidget {
-  const OtpWidget({super.key});
+  const OtpWidget({Key? key}) : super(key: key);
 
   @override
   ConsumerState<OtpWidget> createState() => _OtpWidgetState();
@@ -54,6 +54,7 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final container = ProviderScope.containerOf(context);
     final notifier = ref.read(verifyAccountNotifierProvider);
     final userInfoNotifier = ref.read(userInfoProvider);
     return Theme(
@@ -75,6 +76,7 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
                   notifier.otp = val;
                 },
                 validator: (v) => v!.isEmpty ? Labels.pleaseEnterOtp : null,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   border: OutlineInputBorder(
@@ -111,7 +113,7 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
                         Navigator.pop(context);
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const ConsentPage())
+                          MaterialPageRoute(builder: (context) => ProviderScope(parent:container, child: const ConsentPage()))
                         );
                       });
                     }

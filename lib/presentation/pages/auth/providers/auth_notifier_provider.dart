@@ -48,8 +48,8 @@ class AuthNotifier extends ChangeNotifier{
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
     WebSocketHelper().stream.onData((event) {
-      print("Login");
-      print(event);
+      // print("Login");
+      // print(event);
       final data = jsonDecode(event);
       if (Utils.isSend(data)) {
         _otpRef = data['payload']['otpReference'];
@@ -69,8 +69,8 @@ class AuthNotifier extends ChangeNotifier{
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
     WebSocketHelper().stream.onData((event) {
-      print("Verify OTP");
-      print(event);
+      // print("Verify OTP");
+      // print(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         _ref.read(userInfoProvider.notifier).state.sid = data['header']['sid'];
@@ -97,8 +97,8 @@ class AuthNotifier extends ChangeNotifier{
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      print("User logout");
-      log(event);
+      // print("User logout");
+      // log(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         onDone();

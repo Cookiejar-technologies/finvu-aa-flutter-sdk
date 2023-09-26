@@ -17,6 +17,7 @@ class PopWidget{
               label: Labels.yesTerminate,
               onPressed: (){
                 Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
               }
             ),
             AppButton(
