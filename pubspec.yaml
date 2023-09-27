@@ -11,11 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_riverpod: ^2.3.7
-  http: ^1.1.0
+#  flutter_riverpod: ^2.3.7
+  flutter_riverpod:
+    path: pkgs/flutter_riverpod
+  http: 0.13.4
   web_socket_channel: ^2.4.0
-  intl: ^0.18.1
-  cached_network_image: ^3.2.3
+  intl: 0.17.0
+  cached_network_image: ^3.1.0
   uuid: ^4.0.0
 
 dev_dependencies:
