@@ -58,6 +58,7 @@ class AuthNotifier extends ChangeNotifier{
   }
 
   verifyOtp(BuildContext context, VoidCallback onDone){
+    log("Starting OTP verification");
     loading = true;
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.verifyOtpURN),
@@ -68,9 +69,10 @@ class AuthNotifier extends ChangeNotifier{
     };
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
+    log("Verification Request Sent");
     WebSocketHelper().stream.onData((event) {
-      // print("Verify OTP");
-      // print(event);
+      print("Verify OTP");
+      log(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         _ref.read(userInfoProvider.notifier).state.sid = data['header']['sid'];
@@ -79,6 +81,7 @@ class AuthNotifier extends ChangeNotifier{
           onDone();
         }
       }else{
+        log("Failure ${data['payload']['message']}");
         /// "status":"FAILURE","message":"Otp validation failed."
         AppSnackBar.show(data['payload']['message'], context);
       }

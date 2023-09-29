@@ -26,6 +26,7 @@ class CustomAppScaffold extends ConsumerWidget {
     return Listener(
       onPointerDown: (val){
         ref.read(repositoryProvider).onInteraction!();
+        sessionNotifier.reset();
       },
       child: WillPopScope(
         onWillPop: () => PopWidget.show(context: context, shouldPop: shouldPop),
