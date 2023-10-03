@@ -6,25 +6,38 @@ import 'package:finvu_bank_pfm/core/utilities/styleguide.dart';
 import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({Key? key, }) : super(key: key);
+  final bool isExpanded;
+  const Footer({Key? key, this.isExpanded = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(Labels.poweredBy,
-              style: AppTypography.footerText,
-            ),
-            Image.asset(Assets.finvuIcon,
-              package: "finvu_bank_pfm",
-            )
-          ]
-        ),
-      )
+    return !isExpanded ? const Padding(
+      padding: EdgeInsets.only(top: 32),
+      child: FooterElement(),
+    ) : const Expanded(
+      child: FooterElement()
+    );
+  }
+}
+
+class FooterElement extends StatelessWidget {
+  const FooterElement({Key? key, }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(Labels.poweredBy,
+            style: AppTypography.footerText,
+          ),
+          Image.asset(Assets.finvuIcon,
+            package: "finvu_bank_pfm",
+          )
+        ]
+      ),
     );
   }
 }

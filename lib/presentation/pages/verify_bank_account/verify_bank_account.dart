@@ -26,63 +26,65 @@ class VerifyBankAccount extends ConsumerWidget {
     final userInfoNotifier = ref.read(userInfoProvider);
     return CustomAppScaffold(
       shouldPop: true,
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(Labels.verifyBankAccount,
-              style: AppTypography.h1,
-            ),
-            Sizes.h12,
-            Text(Labels.weFoundTheBelowAccounts(userInfoNotifier.encodedMobileNo),
-              style: AppTypography.referenceText,
-            ),
-            Sizes.h16,
-            ...bankNotifier.accounts.map((e) {
-              return ProviderScope(parent: mainContainer, child: BankContainer(acc: e));
-            },),
-            Sizes.h24,
-            Text(Labels.willSendOtp(bankNotifier.selectedBank!.fipName),
-              style: AppTypography.h3,
-            ),
-            Sizes.h12,
-            Consumer(
-              builder: (context, ref, child){
-                return Align(
-                  alignment: Alignment.centerRight,
-                  child: AppButton(
-                    width: 132,
-                    label: Labels.next,
-                    onPressed: notifier.selectedAccounts.isEmpty ? null : (){
-                      notifier.accLinking(
-                        context: context,
-                        onOtpSent: (){
-                          showModalBottomSheet(
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
-                              ),
-                              context: context,
-                              builder: (context){
-                                return ProviderScope(parent: container, child: const OtpWidget());
-                              }
-                          );
-                        },
-                        ifVerified: (){
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const ConsentPage()))
-                          );
-                        }
-                      );
-                    }
-                  ),
-                );
-              }
-            ),
-            const Footer()
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(Labels.verifyBankAccount,
+                style: AppTypography.h1,
+              ),
+              Sizes.h12,
+              Text(Labels.weFoundTheBelowAccounts(userInfoNotifier.encodedMobileNo),
+                style: AppTypography.referenceText,
+              ),
+              Sizes.h16,
+              ...bankNotifier.accounts.map((e) {
+                return ProviderScope(parent: mainContainer, child: BankContainer(acc: e));
+              },),
+              Sizes.h24,
+              Text(Labels.willSendOtp(bankNotifier.selectedBank!.fipName),
+                style: AppTypography.h3,
+              ),
+              Sizes.h12,
+              Consumer(
+                builder: (context, ref, child){
+                  return Align(
+                    alignment: Alignment.centerRight,
+                    child: AppButton(
+                      width: 132,
+                      label: Labels.next,
+                      onPressed: notifier.selectedAccounts.isEmpty ? null : (){
+                        notifier.accLinking(
+                          context: context,
+                          onOtpSent: (){
+                            showModalBottomSheet(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+                                ),
+                                context: context,
+                                builder: (context){
+                                  return ProviderScope(parent: container, child: const OtpWidget());
+                                }
+                            );
+                          },
+                          ifVerified: (){
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const ConsentPage()))
+                            );
+                          }
+                        );
+                      }
+                    ),
+                  );
+                }
+              ),
+              const Footer(isExpanded: false,)
+            ],
+          ),
         ),
       ),
     );

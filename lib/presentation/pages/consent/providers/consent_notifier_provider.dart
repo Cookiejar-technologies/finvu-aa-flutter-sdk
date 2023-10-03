@@ -82,12 +82,12 @@ class ConsentNotifier extends ChangeNotifier{
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      // print("Consent accept/reject Data");
-      // log(event);
+      print("Consent accept/reject Data");
+      log(event);
       final dataRaw = jsonDecode(event);
       if (Utils.isSuccess(dataRaw)) {
-        dataRaw['payload']['fipConsentInfos'][0]['consentId'];
-        dataRaw['payload']['consentIntentId'];
+        // dataRaw['payload']['fipConsentInfos'][0]['consentId'];
+        // dataRaw['payload']['consentIntentId'];
         onDone();
       }
     });
