@@ -4,6 +4,8 @@ import 'package:finvu_bank_pfm/core/utilities/snack_bar.dart';
 import 'package:finvu_bank_pfm/core/utilities/utils.dart';
 import 'package:finvu_bank_pfm/presentation/models/user_info_model.dart';
 import 'package:finvu_bank_pfm/presentation/pages/consent/providers/consent_notifier_provider.dart';
+import 'package:finvu_bank_pfm/presentation/pages/select_institution/providers/select_institution_notifier_provider.dart';
+import 'package:finvu_bank_pfm/presentation/pages/verify_bank_account/providers/verify_account_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +50,7 @@ class AuthNotifier extends ChangeNotifier{
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
     WebSocketHelper().stream.onData((event) {
-      // print("Login");
+      // print("send otp");
       // print(event);
       final data = jsonDecode(event);
       if (Utils.isSend(data)) {
@@ -58,7 +60,7 @@ class AuthNotifier extends ChangeNotifier{
   }
 
   verifyOtp(BuildContext context, VoidCallback onDone){
-    log("Starting OTP verification");
+    // log("Starting OTP verification");
     loading = true;
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.verifyOtpURN),
@@ -69,10 +71,10 @@ class AuthNotifier extends ChangeNotifier{
     };
 
     WebSocketHelper().channel.sink.add(jsonEncode(body));
-    log("Verification Request Sent");
+    // log("Verification Request Sent");
     WebSocketHelper().stream.onData((event) {
-      print("Verify OTP");
-      log(event);
+      // print("Verify OTP");
+      // log(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         _ref.read(userInfoProvider.notifier).state.sid = data['header']['sid'];
@@ -81,7 +83,7 @@ class AuthNotifier extends ChangeNotifier{
           onDone();
         }
       }else{
-        log("Failure ${data['payload']['message']}");
+        // log("Failure ${data['payload']['message']}");
         /// "status":"FAILURE","message":"Otp validation failed."
         AppSnackBar.show(data['payload']['message'], context);
       }
@@ -105,8 +107,15 @@ class AuthNotifier extends ChangeNotifier{
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         onDone();
-        WebSocketHelper().stream.cancel();
-        WebSocketHelper().channel.sink.close();
+        WebSocketHelper().logout();
+        _ref.read(userInfoProvider.notifier).state.mobileNo = null;
+        _ref.read(userInfoProvider.notifier).state.handleId = null;
+        _ref.read(userInfoProvider.notifier).state.authToken = null;
+        _ref.read(userInfoProvider.notifier).state.sid = null;
+        _otpRef = null;
+        _otp = null;
+        _ref.read(verifyAccountNotifierProvider).clear();
+        _ref.read(selectInstitutionNotifierProvider).clear();
       }
     });
 

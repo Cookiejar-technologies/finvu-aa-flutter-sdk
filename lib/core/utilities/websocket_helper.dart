@@ -14,14 +14,35 @@ class WebSocketHelper{
   static StreamSubscription? _stream;
 
   WebSocketHelper._internal(){
+    init();
+  }
+
+  init(){
     _channel ??= WebSocketChannel.connect(Uri.parse(Constants.websocketUrl));
     _stream ??= _channel?.stream.asBroadcastStream().listen((event) { });
   }
 
-  WebSocketChannel get channel => _channel!;
+  WebSocketChannel get channel {
+    if(_channel == null){
+      init();
+    }
+    return _channel!;
+  }
 
-  add(dynamic data) => channel.sink.add(data);
+  add(dynamic data) {
+    if(_channel == null){
+      init();
+    }
+    channel.sink.add(data);
+  }
 
   StreamSubscription get stream => _stream!;
+
+  logout(){
+    stream.cancel();
+    channel.sink.close();
+    _channel = null;
+    _stream = null;
+  }
 
 }

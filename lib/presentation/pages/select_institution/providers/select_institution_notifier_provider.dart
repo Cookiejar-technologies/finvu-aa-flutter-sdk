@@ -96,4 +96,9 @@ class SelectInstitutionNotifier extends ChangeNotifier{
       }
     });
   }
+
+  clear(){
+    _selectedBank = null;
+    _accounts = [];
+  }
 }

@@ -161,4 +161,9 @@ class VerifyAccountNotifier extends ChangeNotifier{
       }
     });
   }
+
+  clear(){
+    _otp = null;
+    _otpRef = null;
+  }
 }
