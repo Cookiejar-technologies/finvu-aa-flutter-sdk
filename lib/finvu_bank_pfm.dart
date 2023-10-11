@@ -1,6 +1,9 @@
 library finvu_bank_pfm;
 
+import 'dart:developer';
+
 import 'package:finvu_bank_pfm/core/repository/repository_provider.dart';
+import 'package:finvu_bank_pfm/core/utilities/labels.dart';
 import 'package:finvu_bank_pfm/core/utilities/session_manager.dart';
 import 'package:finvu_bank_pfm/presentation/pages/auth/verify_mobile_page.dart';
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
@@ -70,7 +73,10 @@ class _FinvuBankPFM extends ConsumerWidget {
         ),
       ),
       error: (e,s) {
-        return const SizedBox();
+        log("Something went wrong : AA Home",stackTrace: s);
+        return const SizedBox(
+          child: Center(child: Text("Something went wrong : AA Home")),
+        );
       },
     );
   }
