@@ -6,6 +6,7 @@ class PopWidget{
   static Future<bool> show({required BuildContext context, bool shouldPop = false})async{
     if(shouldPop) return true;
     return await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context){
         return AlertDialog(
@@ -16,8 +17,6 @@ class PopWidget{
             AppButton(
               label: Labels.yesTerminate,
               onPressed: (){
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               }
             ),

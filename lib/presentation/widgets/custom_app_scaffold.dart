@@ -29,7 +29,14 @@ class CustomAppScaffold extends ConsumerWidget {
         sessionNotifier.reset();
       },
       child: WillPopScope(
-        onWillPop: () => PopWidget.show(context: context, shouldPop: shouldPop),
+        onWillPop: () async{
+          final res = await PopWidget.show(context: context, shouldPop: shouldPop);
+          if (res) {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          }
+          return res;
+        },
         child: Theme(
           data: Themes.light,
           child: Scaffold(
