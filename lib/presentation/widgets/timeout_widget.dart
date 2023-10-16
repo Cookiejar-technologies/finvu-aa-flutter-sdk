@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
   final String msg;
-  const ErrorPage({Key? key, this.msg = Labels.sessionTimeout}) : super(key: key);
+  const ErrorPage({super.key, this.msg = Labels.sessionTimeout});
 
   @override
   Widget build(BuildContext context) {

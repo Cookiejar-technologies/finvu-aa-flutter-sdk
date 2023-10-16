@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 class VerifyMobilePage extends ConsumerStatefulWidget {
-  const VerifyMobilePage({Key? key}) : super(key: key);
+  const VerifyMobilePage({super.key});
 
   @override
   ConsumerState<VerifyMobilePage> createState() => _VerifyMobilePageState();

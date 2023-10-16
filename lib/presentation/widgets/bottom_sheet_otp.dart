@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OtpWidget extends ConsumerStatefulWidget {
-  const OtpWidget({Key? key}) : super(key: key);
+  const OtpWidget({super.key});
 
   @override
   ConsumerState<OtpWidget> createState() => _OtpWidgetState();

@@ -6,7 +6,7 @@ class AppNetworkImage extends StatelessWidget {
   final String url;
   final BoxFit? fit;
   final double? width;
-  const AppNetworkImage({Key? key, required this.url, this.fit, this.width}) : super(key: key);
+  const AppNetworkImage({super.key, required this.url, this.fit, this.width});
 
   @override
   Widget build(BuildContext context) {

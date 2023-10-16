@@ -19,7 +19,7 @@ class FinvuBankPFM extends StatelessWidget {
   final VoidCallback onInteraction;
   final int interval;
   final int timeOut;
-  const FinvuBankPFM({Key? key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut,this.onDone}) : super(key: key);
+  const FinvuBankPFM({super.key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut,this.onDone});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _FinvuBankPFM extends ConsumerWidget {
   final VoidCallback onInteraction;
   final int interval;
   final int timeOut;
-  const _FinvuBankPFM({Key? key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut, this.onDone}) : super(key: key);
+  const _FinvuBankPFM({super.key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut, this.onDone});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

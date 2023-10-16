@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/utilities/labels.dart';
 
 class SelectInstitutionPage extends ConsumerWidget {
-  const SelectInstitutionPage({Key? key}) : super(key: key);
+  const SelectInstitutionPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../consent/consent_page.dart';
 
 class VerifyBankAccount extends ConsumerWidget {
-  const VerifyBankAccount({Key? key}) : super(key: key);
+  const VerifyBankAccount({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

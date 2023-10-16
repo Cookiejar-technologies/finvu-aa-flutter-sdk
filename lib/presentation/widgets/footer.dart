@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
   final bool isExpanded;
-  const Footer({Key? key, this.isExpanded = true}) : super(key: key);
+  const Footer({super.key, this.isExpanded = true});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Footer extends StatelessWidget {
 }
 
 class FooterElement extends StatelessWidget {
-  const FooterElement({Key? key, }) : super(key: key);
+  const FooterElement({super.key, });
 
   @override
   Widget build(BuildContext context) {

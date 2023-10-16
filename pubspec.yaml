@@ -4,16 +4,16 @@ version: 0.0.1
 homepage: ""
 
 environment:
-  sdk: '>=2.16.1 <4.0.0'
+  sdk: '>=2.19.4 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-#  flutter_riverpod: ^2.3.7
-  flutter_riverpod:
-    path: pkgs/flutter_riverpod
+  flutter_riverpod: ^2.3.7
+#  flutter_riverpod:
+#    path: pkgs/flutter_riverpod
   http: 0.13.4
   web_socket_channel: ^2.4.0
   intl: 0.17.0

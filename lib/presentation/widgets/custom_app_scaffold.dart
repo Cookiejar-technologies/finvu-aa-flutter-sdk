@@ -11,7 +11,7 @@ class CustomAppScaffold extends ConsumerWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
   final bool shouldPop;
-  CustomAppScaffold({Key? key, required this.body, this.appBar, this.shouldPop = false}) : super(key: key);
+  CustomAppScaffold({super.key, required this.body, this.appBar, this.shouldPop = false});
 
   final PreferredSizeWidget defaultAppBar = AppBar(
     title: Image.asset(

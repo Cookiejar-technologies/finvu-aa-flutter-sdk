@@ -12,7 +12,7 @@ class BankLogo extends ConsumerWidget {
   final Bank bank;
   final bool isExpanded;
   final bool readOnly;
-  const BankLogo({Key? key, required this.bank, this.isExpanded = true, this.readOnly = false}) : super(key: key);
+  const BankLogo({super.key, required this.bank, this.isExpanded = true, this.readOnly = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

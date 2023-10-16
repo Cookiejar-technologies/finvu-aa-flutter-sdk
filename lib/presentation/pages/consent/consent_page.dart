@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ConsentPage extends ConsumerWidget {
-  const ConsentPage({Key? key}) : super(key: key);
+  const ConsentPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

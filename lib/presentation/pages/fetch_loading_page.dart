@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FetchLoadingPage extends ConsumerStatefulWidget {
-  const FetchLoadingPage({Key? key}) : super(key: key);
+  const FetchLoadingPage({super.key});
 
   @override
   ConsumerState<FetchLoadingPage> createState() => _FetchLoadingPageState();
