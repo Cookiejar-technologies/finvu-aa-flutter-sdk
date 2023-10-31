@@ -1,10 +1,11 @@
 class Constants{
-  static const String baseUrl = "https://dhanaprayoga.fiu.finfactor.in/finsense/API/V1/";
-  static const String login = "${baseUrl}User/Login";
-  static const String consentRequestPlus = "${baseUrl}ConsentRequestPlus";
+  static const String baseUrl = "https://canarabank.fiulive.finfactor.co.in/finsense/API/V1/";
+  // static const String login = "${baseUrl}User/Login";
+  // static const String consentRequestPlus = "${baseUrl}ConsentRequestPlus";
   static const String fips = "${baseUrl}fips";
 
-  static const String websocketUrl = "wss://webvwdev.finvu.in/consentapi";
+  // static const String websocketUrl = "wss://webvwdev.finvu.in/consentapi";
+  static const String websocketUrl = "wss://webvwlive.finvu.in/consentapi";
 
   static const String userIdSuffix = "@finvu";
   static String userId(String mobileNo) => "$mobileNo$userIdSuffix";
