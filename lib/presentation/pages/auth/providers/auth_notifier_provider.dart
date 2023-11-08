@@ -78,6 +78,7 @@ class AuthNotifier extends ChangeNotifier{
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         _ref.read(userInfoProvider.notifier).state.sid = data['header']['sid'];
+        _ref.read(userInfoProvider.notifier).state.userId = data['payload']['userId'];
         if(userInfo.sid != null){
           consentNotifier.consentRequestDetails();
           onDone();

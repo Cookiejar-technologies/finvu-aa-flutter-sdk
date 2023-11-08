@@ -62,7 +62,8 @@ class VerifyAccountNotifier extends ChangeNotifier{
           "fipName": selectInstNotifier.selectedBank!.fipName
         },
         "Customer": {
-          "id": Constants.userId(mobileNo),
+          // "id": Constants.userId(mobileNo),
+          "id": _ref.read(userInfoProvider).userId,
           "Accounts": selectedAccounts.map((e) => e.toJson()).toList()
         }
       }
@@ -104,7 +105,8 @@ class VerifyAccountNotifier extends ChangeNotifier{
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.userLinkedURN),
       "payload": {
-        "userId":Constants.userId(mobileNo)
+        // "userId":Constants.userId(mobileNo)
+        "userId": _ref.read(userInfoProvider).userId
       }
     };
 

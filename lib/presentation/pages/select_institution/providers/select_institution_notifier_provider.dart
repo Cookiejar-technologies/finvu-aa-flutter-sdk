@@ -51,7 +51,8 @@ class SelectInstitutionNotifier extends ChangeNotifier{
         "timestamp": Formats.formatZ(DateTime.now()),
         "txnid": const Uuid().v4(),
         "Customer": {
-          "id": Constants.userId(mobileNo),
+          // "id": Constants.userId(mobileNo),
+          "id": _ref.read(userInfoProvider).userId,
           "Identifiers": [
             {
               "category": "STRONG",
