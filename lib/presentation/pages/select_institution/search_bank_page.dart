@@ -50,7 +50,7 @@ class SearchBank extends SearchDelegate<Bank?>{
             close(context, filter()[index]);
             query = filter()[index].fipName;
           },
-          leading: AppNetworkImage(url: filter()[index].entityLogoUri ?? "", fit: BoxFit.contain,),
+          leading: AppNetworkImage(url: filter()[index].entityLogoUri, fit: BoxFit.contain,),
           title: Text(filter()[index].fipName),
         );
       }
@@ -69,7 +69,7 @@ class SearchBank extends SearchDelegate<Bank?>{
             close(context, filter()[index]);
             query = filter()[index].fipName;
           },
-          leading: AppNetworkImage(url: filter()[index].entityLogoUri ?? "", fit: BoxFit.contain,),
+          leading: AppNetworkImage(url: filter()[index].entityLogoUri, fit: BoxFit.contain,),
           title: Text(filter()[index].fipName),
         );
       }

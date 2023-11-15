@@ -52,15 +52,16 @@ class SelectInstitutionPage extends ConsumerWidget {
               ),
             ),
             Sizes.h16,
+            if(notifier.banks.where((e) => e.isPreferred).isNotEmpty)
             GridView.builder(
               shrinkWrap: true,
-              itemCount: 6,
+              itemCount: notifier.banks.where((e) => e.isPreferred).length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, 
                 childAspectRatio: 1.5
               ),
               itemBuilder: (context, index) {
-                return ProviderScope(parent: mainContainer, child: BankLogo(bank: notifier.banks[index],));
+                return ProviderScope(parent: mainContainer, child: BankLogo(bank: notifier.banks.where((e) => e.isPreferred).toList()[index],));
               },
             ),
             Sizes.h24,

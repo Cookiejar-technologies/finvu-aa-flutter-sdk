@@ -36,9 +36,9 @@ class BankLogo extends ConsumerWidget {
         children: [
           isExpanded ?
           Expanded(
-            child: AppNetworkImage(url: bank.entityLogoUri ?? "", fit: BoxFit.contain,),
+            child: AppNetworkImage(url: bank.entityLogoUri, fit: BoxFit.contain,),
           ):
-          AppNetworkImage(url: bank.entityLogoUri ?? "", fit: BoxFit.contain,),
+          AppNetworkImage(url: bank.entityLogoUri, fit: BoxFit.contain,),
           Sizes.h8,
           Text(
             bank.fipName,

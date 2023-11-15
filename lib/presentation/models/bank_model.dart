@@ -36,5 +36,7 @@ class Bank{
   bool get enabled => enable == "Y";
   bool get bankIconNull => entityIconUri == null;
   bool get bankLogoNull => entityLogoUri == null;
+  List<String> preferredFips = ["ICICI-FIP","HDFC-FIP","AXIS001","FDRLFIPPROD","UBI-FIP","BARBFIP"];
+  bool get isPreferred => preferredFips.contains(fipId);
 
 }
