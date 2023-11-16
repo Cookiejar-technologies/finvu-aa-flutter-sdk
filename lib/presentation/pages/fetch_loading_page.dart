@@ -22,7 +22,7 @@ class _FetchLoadingPageState extends ConsumerState<FetchLoadingPage> {
     // TODO: implement initState
     super.initState();
     ref.read(authNotifierProvider).logout(() {
-      Future.delayed(const Duration(seconds: 3)).then((value) {
+      Future.delayed(const Duration(seconds: 2)).then((value) {
         if (ref.read(repositoryProvider).onDone != null) {
           ref.read(repositoryProvider).onDone!();
         }else{
@@ -37,23 +37,26 @@ class _FetchLoadingPageState extends ConsumerState<FetchLoadingPage> {
   @override
   Widget build(BuildContext context) {
     return CustomAppScaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(Assets.loading,
-              package: "finvu_bank_pfm"
-            ),
-            Sizes.h16,
-            Text(Labels.safelyFetchingAccount,
-              textAlign: TextAlign.center,
-              style: AppTypography.h2.copyWith(color: AppColors.darkGrey),
-            )
-          ],
-        ),
+      body: const Center(
+        child: CircularProgressIndicator(),
       )
+      // Padding(
+      //   padding: const EdgeInsets.all(24),
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.stretch,
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Image.asset(Assets.loading,
+      //         package: "finvu_bank_pfm"
+      //       ),
+      //       Sizes.h16,
+      //       Text(Labels.safelyFetchingAccount,
+      //         textAlign: TextAlign.center,
+      //         style: AppTypography.h2.copyWith(color: AppColors.darkGrey),
+      //       )
+      //     ],
+      //   ),
+      // )
     );
   }
 }
