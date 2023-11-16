@@ -60,6 +60,7 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
     final notifier = ref.watch(authNotifierProvider);
     final userInfoNotifier = ref.read(userInfoProvider);
     return CustomAppScaffold(
+      isFirst: true,
       shouldPop: true,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -129,7 +130,7 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
                 label: Labels.verify,
               ),
             ),
-            const Footer()
+            const Footer(showTnC: true,)
           ],
         ),
       )

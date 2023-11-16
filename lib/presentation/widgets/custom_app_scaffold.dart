@@ -11,7 +11,8 @@ class CustomAppScaffold extends ConsumerWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
   final bool shouldPop;
-  CustomAppScaffold({super.key, required this.body, this.appBar, this.shouldPop = false});
+  final bool isFirst;
+  CustomAppScaffold({super.key, required this.body, this.appBar, this.shouldPop = false, this.isFirst = false});
 
   final PreferredSizeWidget defaultAppBar = AppBar(
     title: Image.asset(
@@ -32,8 +33,12 @@ class CustomAppScaffold extends ConsumerWidget {
         onWillPop: () async{
           final res = await PopWidget.show(context: context, shouldPop: shouldPop);
           if (res) {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            if (isFirst) {
+              Navigator.of(context).pop();
+            }else{
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }
           }
           return res;
         },
