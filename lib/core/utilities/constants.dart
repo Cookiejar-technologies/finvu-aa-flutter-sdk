@@ -29,4 +29,6 @@ class Constants{
   static const String success = "SUCCESS";
   static const String send = "SEND";
 
+  static const List<String> preferredFips = ["sbi-fip","PNB-FIP","BARBFIP","HDFC-FIP","ICICI-FIP","AXIS001"];
+
 }

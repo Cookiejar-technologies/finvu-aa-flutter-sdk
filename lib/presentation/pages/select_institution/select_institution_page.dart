@@ -1,5 +1,7 @@
+import 'package:finvu_bank_pfm/core/utilities/constants.dart';
 import 'package:finvu_bank_pfm/core/utilities/sizes.dart';
 import 'package:finvu_bank_pfm/core/utilities/styleguide.dart';
+import 'package:finvu_bank_pfm/presentation/models/bank_model.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_institution/providers/select_institution_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_institution/search_bank_page.dart';
 import 'package:finvu_bank_pfm/presentation/pages/verify_bank_account/verify_bank_account.dart';
@@ -61,7 +63,11 @@ class SelectInstitutionPage extends ConsumerWidget {
                 childAspectRatio: 1.5
               ),
               itemBuilder: (context, index) {
-                return ProviderScope(parent: mainContainer, child: BankLogo(bank: notifier.banks.where((e) => e.isPreferred).toList()[index],));
+                List<Bank> prefBanks = [];
+                for (var e in Constants.preferredFips) {
+                  prefBanks.add(notifier.banks.where((f) => f.fipId == e).first);
+                }
+                return ProviderScope(parent: mainContainer, child: BankLogo(bank: prefBanks[index],));
               },
             ),
             Sizes.h24,
