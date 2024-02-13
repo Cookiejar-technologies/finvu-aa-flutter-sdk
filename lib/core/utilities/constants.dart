@@ -1,16 +1,20 @@
 class Constants{
+  // static const String devVaseUrl = "https://dhanaprayoga.fiu.finfactor.in/finsense/API/V1/";
   static const String baseUrl = "https://canarabank.fiulive.finfactor.co.in/finsense/API/V1/";
   // static const String login = "${baseUrl}User/Login";
   // static const String consentRequestPlus = "${baseUrl}ConsentRequestPlus";
   static const String fips = "${baseUrl}fips";
 
-  // static const String websocketUrl = "wss://webvwdev.finvu.in/consentapi";
+  // static const String devWebsocketUrl = "wss://webvwdev.finvu.in/consentapi";
   static const String websocketUrl = "wss://webvwlive.finvu.in/consentapi";
+  static const String websocketWebApiUrl = "wss://webvwlive.finvu.in/webapi";
 
   static const String userIdSuffix = "@finvu";
   static String userId(String mobileNo) => "$mobileNo$userIdSuffix";
   static const String channelId = "finsense";
   static const String version = "1.1.2";
+  static const String devEntityId = "fiu@canarabankuat";
+  static const String entityId = "fiulive@canarabank";
 
   ///URN Types
   static const String sendOtpURN = "urn:finvu:in:app:req.loginOtp.01";
@@ -22,6 +26,7 @@ class Constants{
   static const String consentApprovalURN = "urn:finvu:in:app:req.accountConsentRequest.01";
   static const String userLinkedURN = "urn:finvu:in:app:req.userLinkedAccount.01";
   static const String logoutURN = "urn:finvu:in:app:req.logout.01";
+  static const String configURN = "urn:finvu:in:app:req.entitySdkConfig.01";
 
   ///Enums
   static const String accept = "ACCEPT";

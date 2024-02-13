@@ -42,4 +42,14 @@ class HeaderBuilder{
     };
   }
 
+  Map<String, dynamic> emptyWsHeader(String type){
+    return {
+      "mid": const Uuid().v4(),
+      "ts": Formats.formatISOTime(DateTime.now()),
+      "sid": "",
+      "dup": false,
+      "type": type
+    };
+  }
+
 }

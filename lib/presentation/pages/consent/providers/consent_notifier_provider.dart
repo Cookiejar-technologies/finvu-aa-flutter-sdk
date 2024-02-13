@@ -9,6 +9,7 @@ import 'package:finvu_bank_pfm/presentation/models/account_model.dart';
 import 'package:finvu_bank_pfm/presentation/models/bank_model.dart';
 import 'package:finvu_bank_pfm/presentation/models/details_model.dart';
 import 'package:finvu_bank_pfm/presentation/models/user_info_model.dart';
+import 'package:finvu_bank_pfm/presentation/pages/auth/providers/auth_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_institution/providers/select_institution_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/verify_bank_account/providers/verify_account_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
@@ -23,6 +24,7 @@ class ConsentNotifier extends ChangeNotifier{
 
   SelectInstitutionNotifier get selectInstitute => _ref.read(selectInstitutionNotifierProvider);
   VerifyAccountNotifier get verifyAcc => _ref.read(verifyAccountNotifierProvider);
+  AuthNotifier get authNotifier => _ref.read(authNotifierProvider);
   Bank get selectedBank => selectInstitute.selectedBank!;
   List<Account> get selectedAccounts => verifyAcc.selectedAccounts;
 
@@ -47,11 +49,13 @@ class ConsentNotifier extends ChangeNotifier{
     WebSocketHelper().channel.sink.add(jsonEncode(body));
 
     WebSocketHelper().stream.onData((event) {
-      // print("Consent Request Data");
-      // log(event);
+      print("Consent Request Data");
+      log(event);
       final dataRaw = jsonDecode(event);
       if (Utils.isSuccess(dataRaw)) {
         details = ConsentDetails.fromJson(dataRaw['payload']);
+        log("reached config call");
+        authNotifier.getConfig();
       }
     });
   }

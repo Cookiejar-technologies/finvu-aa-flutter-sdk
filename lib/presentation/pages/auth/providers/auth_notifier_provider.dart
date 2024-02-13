@@ -9,6 +9,7 @@ import 'package:finvu_bank_pfm/presentation/pages/verify_bank_account/providers/
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../../core/utilities/constants.dart';
 import '../../../../core/utilities/header_builder.dart';
 import '../../../../core/utilities/websocket_helper.dart';
@@ -21,6 +22,7 @@ class AuthNotifier extends ChangeNotifier{
 
   ConsentNotifier get consentNotifier => _ref.read(consentNotifierProvider);
   UserInfo get userInfo => _ref.read(userInfoProvider);
+  SelectInstitutionNotifier get selectInstitute => _ref.read(selectInstitutionNotifierProvider);
 
   String? _otpRef;
 
@@ -120,6 +122,35 @@ class AuthNotifier extends ChangeNotifier{
       }
     });
 
+  }
+
+  getConfig(){
+    Map<String, dynamic> body = {
+      "header": HeaderBuilder(_ref).emptyWsHeader(Constants.configURN),
+      "payload": {
+        "entityId": Constants.entityId,
+        "entityType": "FIU"
+      }
+    };
+    log("rjegelsrgksehrgkjherkg");
+    log(jsonEncode(body));
+
+    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(Constants.websocketWebApiUrl));
+
+    channel.sink.add(jsonEncode(body));
+
+    channel.stream.listen((event) {
+      final data = jsonDecode(event);
+      if (Utils.isSuccess(data)) {
+        log("success", time: DateTime.now());
+        final List<String> res = (data['payload']['entityConfig']['excludeFIP'] as List).map<String>((e) => e.toString()).toList();
+        selectInstitute.excludedFips = res;
+        channel.sink.close();
+      }else{
+        channel.sink.close();
+        // AppSnackBar.show(data['payload']['message'], context);
+      }
+    });
   }
 
 }

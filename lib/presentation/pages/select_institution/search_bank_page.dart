@@ -8,11 +8,14 @@ import '../../models/bank_model.dart';
 class SearchBank extends SearchDelegate<Bank?>{
 
   List<Bank> banks;
+  List<String> excludedFip;
   WidgetRef ref;
-  SearchBank({required this.banks, required this.ref});
+  SearchBank({required this.banks, required this.ref, required this.excludedFip});
 
   List<Bank> filter(){
-    return List.from(banks.where((e) => e.fipName.toLowerCase().startsWith(query.toLowerCase())));
+    return List.from(banks.where((e) {
+      return e.fipId.toLowerCase().startsWith(query.toLowerCase()) && excludedFip.where((f) => f.toLowerCase() == query.toLowerCase()).isEmpty;
+    }));
   }
 
   @override

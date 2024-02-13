@@ -75,7 +75,7 @@ class SelectInstitutionPage extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextField(
                 onTap: ()async{
-                  final selBank = await showSearch(context: context, delegate: SearchBank(banks: notifier.banks, ref: ref));
+                  final selBank = await showSearch(context: context, delegate: SearchBank(banks: notifier.banks, ref: ref, excludedFip: notifier.excludedFips));
                   if(selBank != null){
                     notifier.selectedBank = selBank;
                     notifier.getDiscoveredAccounts(context, (){

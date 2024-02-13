@@ -29,6 +29,13 @@ class SelectInstitutionNotifier extends ChangeNotifier{
     notifyListeners();
   }
 
+  List<String> _excludedFips = [];
+  List<String> get excludedFips => _excludedFips;
+  set excludedFips(List<String> val){
+    _excludedFips = val;
+    notifyListeners();
+  }
+
   Bank? _selectedBank;
   Bank? get selectedBank => _selectedBank;
   set selectedBank(Bank? val){
