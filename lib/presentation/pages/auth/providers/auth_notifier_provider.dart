@@ -5,6 +5,7 @@ import 'package:finvu_bank_pfm/core/utilities/utils.dart';
 import 'package:finvu_bank_pfm/presentation/models/user_info_model.dart';
 import 'package:finvu_bank_pfm/presentation/pages/consent/providers/consent_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_institution/providers/select_institution_notifier_provider.dart';
+import 'package:finvu_bank_pfm/presentation/pages/select_mutual_fund/providers/select_mutual_fund_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/verify_bank_account/providers/verify_account_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class AuthNotifier extends ChangeNotifier{
   ConsentNotifier get consentNotifier => _ref.read(consentNotifierProvider);
   UserInfo get userInfo => _ref.read(userInfoProvider);
   SelectInstitutionNotifier get selectInstitute => _ref.read(selectInstitutionNotifierProvider);
+  SelectMutualFundNotifier get mfNotifierProvider => _ref.read(selectMfNotifierProvider);
 
   String? _otpRef;
 
@@ -50,8 +52,8 @@ class AuthNotifier extends ChangeNotifier{
       }
     };
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).stream.onData((event) {
       // print("send otp");
       // print(event);
       final data = jsonDecode(event);
@@ -72,9 +74,9 @@ class AuthNotifier extends ChangeNotifier{
       }
     };
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
     // log("Verification Request Sent");
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       // print("Verify OTP");
       // log(event);
       final data = jsonDecode(event);
@@ -82,8 +84,11 @@ class AuthNotifier extends ChangeNotifier{
         _ref.read(userInfoProvider.notifier).state.sid = data['header']['sid'];
         _ref.read(userInfoProvider.notifier).state.userId = data['payload']['userId'];
         if(userInfo.sid != null){
-          consentNotifier.consentRequestDetails();
-          onDone();
+          consentNotifier.consentRequestDetails(
+            onDone: (){
+              onDone();
+            }
+          );
         }
       }else{
         // log("Failure ${data['payload']['message']}");
@@ -102,15 +107,15 @@ class AuthNotifier extends ChangeNotifier{
       }
     };
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       // print("User logout");
       // log(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         onDone();
-        WebSocketHelper().logout();
+        WebSocketHelper(_ref).logout();
         _ref.read(userInfoProvider.notifier).state.mobileNo = null;
         _ref.read(userInfoProvider.notifier).state.handleId = null;
         _ref.read(userInfoProvider.notifier).state.authToken = null;
@@ -124,18 +129,16 @@ class AuthNotifier extends ChangeNotifier{
 
   }
 
-  getConfig(){
+  getConfig({required VoidCallback onDone}){
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).emptyWsHeader(Constants.configURN),
       "payload": {
-        "entityId": Constants.entityId,
+        "entityId": Constants.entityId(userInfo.devMode!),
         "entityType": "FIU"
       }
     };
-    log("rjegelsrgksehrgkjherkg");
-    log(jsonEncode(body));
 
-    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(Constants.websocketWebApiUrl));
+    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(Constants.websocketWebApiUrl(userInfo.devMode!)));
 
     channel.sink.add(jsonEncode(body));
 
@@ -145,6 +148,7 @@ class AuthNotifier extends ChangeNotifier{
         log("success", time: DateTime.now());
         final List<String> res = (data['payload']['entityConfig']['excludeFIP'] as List).map<String>((e) => e.toString()).toList();
         selectInstitute.excludedFips = res;
+        onDone();
         channel.sink.close();
       }else{
         channel.sink.close();

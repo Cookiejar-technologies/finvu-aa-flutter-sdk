@@ -29,7 +29,7 @@ class Repository {
 
   Future<List<Bank>> getFIP()async{
     http.Response res = await http.get(
-      Uri.parse(Constants.fips),
+      Uri.parse(Constants.fips(userInfo.devMode!)),
       headers: HeaderBuilder.authHeader(authToken)
     );
     if(res.statusCode == 200){

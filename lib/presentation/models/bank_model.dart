@@ -26,7 +26,7 @@ class Bank{
       fipId: map['fipId'],
       fipName: map['fipName'],
       code: map['code'],
-      enable: map['enable'],
+      enable: map['enable']??"N",
       fiTypes: map['fiTypes'].isEmpty ? <String>[] : map['fiTypes'].map<String>((e) => e.toString()).toList(),
       entityIconUri: map['entityIconUri'],
       entityLogoUri: map['entityLogoUri'],

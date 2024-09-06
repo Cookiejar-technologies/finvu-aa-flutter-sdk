@@ -4,6 +4,8 @@ import 'package:finvu_bank_pfm/core/utilities/sizes.dart';
 import 'package:finvu_bank_pfm/core/utilities/styleguide.dart';
 import 'package:finvu_bank_pfm/presentation/pages/auth/providers/auth_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_institution/select_institution_page.dart';
+import 'package:finvu_bank_pfm/presentation/pages/select_mutual_fund/select_mutual_funds_page.dart';
+import 'package:finvu_bank_pfm/presentation/pages/select_stocks/select_stocks_page.dart';
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
 import 'package:finvu_bank_pfm/presentation/widgets/app_buttons.dart';
 import 'package:finvu_bank_pfm/presentation/widgets/custom_app_scaffold.dart';
@@ -122,7 +124,14 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
                     notifier.verifyOtp(context, (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const SelectInstitutionPage()))
+                        MaterialPageRoute(
+                          builder: (context) => ProviderScope(
+                            parent: container,
+                            child: userInfoNotifier.isMF ? const SelectMutualFundsPage() :
+                              userInfoNotifier.isEquity ? const SelectStocksPage()
+                                : const SelectInstitutionPage()
+                          )
+                        )
                       );
                     });
                   }

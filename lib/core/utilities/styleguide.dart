@@ -5,6 +5,7 @@ class AppColors {
   static const Color green = Color.fromRGBO(39, 174, 96, 1);
   static const Color primary = Color.fromRGBO(43, 146, 229, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
+  static const Color red = Colors.red;
 
   ///greys
   static const Color darkGrey = Color.fromRGBO(79, 79, 79, 1);
@@ -13,9 +14,18 @@ class AppColors {
   static const Color borderGrey = Color.fromRGBO(224, 224, 224, 1);
   static const Color textDarkGrey = Color.fromRGBO(51, 51, 51, 1);
   static const Color dividerGrey = Color.fromRGBO(224, 224, 224, 1);
+  static const Color bgGrey = Color.fromRGBO(234, 240, 251, 1);
+  static const Color bgRed = Color.fromRGBO(252, 234, 239,1);
+  static const Color bgGreen = Color.fromRGBO(0, 90, 102, 1);
 }
 
 class AppTypography {
+  static const title = TextStyle(
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.05,
+      color: AppColors.green);
+
   static const h1 = TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w500,

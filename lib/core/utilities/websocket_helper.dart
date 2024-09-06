@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'package:finvu_bank_pfm/presentation/models/user_info_model.dart';
+import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'constants.dart';
 
 class WebSocketHelper{
   static final WebSocketHelper _instance = WebSocketHelper._internal();
+  static late Ref _ref;
 
-  factory WebSocketHelper() {
+  factory WebSocketHelper(Ref ref) {
+    _ref = ref;
     return _instance;
   }
 
@@ -17,8 +22,10 @@ class WebSocketHelper{
     init();
   }
 
+  UserInfo get userInfo => _ref.read(userInfoProvider);
+
   init(){
-    _channel ??= WebSocketChannel.connect(Uri.parse(Constants.websocketUrl));
+    _channel ??= WebSocketChannel.connect(Uri.parse(Constants.websocketUrl(userInfo.devMode!)));
     _stream ??= _channel?.stream.asBroadcastStream().listen((event) { });
   }
 

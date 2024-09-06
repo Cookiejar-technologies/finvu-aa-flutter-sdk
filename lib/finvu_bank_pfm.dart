@@ -10,6 +10,12 @@ import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+enum AAType{
+  deposit,
+  mutualFund,
+  equity
+}
+
 ///Entry point for the Finvu Bank PFM package
 class FinvuBankPFM extends StatelessWidget {
   final String mobileNo;
@@ -19,7 +25,10 @@ class FinvuBankPFM extends StatelessWidget {
   final VoidCallback onInteraction;
   final int interval;
   final int timeOut;
-  const FinvuBankPFM({super.key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut,this.onDone});
+  final bool devMode;
+  final AAType aaType;
+  final String? pan;
+  const FinvuBankPFM({super.key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut, required this.devMode, required this.aaType, required this.pan, this.onDone});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +41,9 @@ class FinvuBankPFM extends StatelessWidget {
         onInteraction: onInteraction,
         interval: interval,
         timeOut: timeOut,
+        devMode: devMode,
+        aaType: aaType,
+        pan: pan
       )
     );
   }
@@ -46,7 +58,10 @@ class _FinvuBankPFM extends ConsumerWidget {
   final VoidCallback onInteraction;
   final int interval;
   final int timeOut;
-  const _FinvuBankPFM({super.key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut, this.onDone});
+  final bool devMode;
+  final AAType aaType;
+  final String? pan;
+  const _FinvuBankPFM({super.key, required this.mobileNo, required this.authToken, required this.handleId, required this.onInteraction, required this.interval, required this.timeOut, required this.devMode, required this.aaType, required this.pan, this.onDone});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,6 +69,9 @@ class _FinvuBankPFM extends ConsumerWidget {
     userInfo.state.mobileNo = mobileNo;
     userInfo.state.handleId = handleId;
     userInfo.state.authToken = authToken;
+    userInfo.state.devMode = devMode;
+    userInfo.state.aaType = aaType;
+    userInfo.state.pan = pan;
     ref.read(repositoryProvider).onInteraction = onInteraction;
     ref.read(sessionProvider).init(interval, timeOut);
     if(onDone != null){
@@ -73,6 +91,8 @@ class _FinvuBankPFM extends ConsumerWidget {
         ),
       ),
       error: (e,s) {
+        print(e);
+        print(s);
         log("Something went wrong : AA Home",stackTrace: s);
         return const SizedBox(
           child: Center(child: Text("Something went wrong : AA Home")),

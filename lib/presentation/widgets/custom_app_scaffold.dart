@@ -12,7 +12,8 @@ class CustomAppScaffold extends ConsumerWidget {
   final PreferredSizeWidget? appBar;
   final bool shouldPop;
   final bool isFirst;
-  CustomAppScaffold({super.key, required this.body, this.appBar, this.shouldPop = false, this.isFirst = false});
+  final Widget? bottomNavigationBar;
+  CustomAppScaffold({super.key, required this.body, this.appBar, this.shouldPop = false, this.bottomNavigationBar, this.isFirst = false});
 
   final PreferredSizeWidget defaultAppBar = AppBar(
     title: Image.asset(
@@ -45,6 +46,7 @@ class CustomAppScaffold extends ConsumerWidget {
         child: Theme(
           data: Themes.light,
           child: Scaffold(
+            bottomNavigationBar: bottomNavigationBar,
             appBar: appBar ?? defaultAppBar,
             body: SafeArea(
               top: false,

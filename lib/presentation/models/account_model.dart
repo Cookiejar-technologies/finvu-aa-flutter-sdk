@@ -40,6 +40,18 @@ class Account{
     };
   }
 
+  Map<String, dynamic> consentToJsonMf(String fipId, String fipName) {
+    return {
+      'accType': accType,
+      'accRefNumber': accRefNumber,
+      'maskedAccNumber': maskedAccNumber,
+      'FIType': FIType,
+      'linkRefNumber': linkRefNumber,
+      'fipId': fipId,
+      'fipName': fipName
+    };
+  }
+
   @override
   bool operator ==(Object other) =>
     identical(this, other) ||

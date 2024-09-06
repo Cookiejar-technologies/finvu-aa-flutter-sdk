@@ -37,7 +37,7 @@ class ConsentNotifier extends ChangeNotifier{
     notifyListeners();
   }
 
-  consentRequestDetails(){
+  consentRequestDetails({required VoidCallback onDone}){
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.consentDetailsURN),
       "payload": {
@@ -46,16 +46,20 @@ class ConsentNotifier extends ChangeNotifier{
       }
     };
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       print("Consent Request Data");
-      log(event);
+      print(event);
       final dataRaw = jsonDecode(event);
       if (Utils.isSuccess(dataRaw)) {
         details = ConsentDetails.fromJson(dataRaw['payload']);
         log("reached config call");
-        authNotifier.getConfig();
+        authNotifier.getConfig(
+          onDone: (){
+            onDone();
+          }
+        );
       }
     });
   }
@@ -83,9 +87,9 @@ class ConsentNotifier extends ChangeNotifier{
 
     // log(jsonEncode(body));
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       print("Consent accept/reject Data");
       log(event);
       final dataRaw = jsonDecode(event);

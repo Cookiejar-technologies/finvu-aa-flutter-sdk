@@ -71,9 +71,9 @@ class VerifyAccountNotifier extends ChangeNotifier{
 
     // print(body);
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       // print("Acc Linking start");
       // print(event);
       final data = jsonDecode(event);
@@ -110,9 +110,9 @@ class VerifyAccountNotifier extends ChangeNotifier{
       }
     };
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       // print("User linked accounts");
       // log(event);
       final data = jsonDecode(event);
@@ -145,9 +145,9 @@ class VerifyAccountNotifier extends ChangeNotifier{
 
     // print(body);
 
-    WebSocketHelper().channel.sink.add(jsonEncode(body));
+    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
-    WebSocketHelper().stream.onData((event) {
+    WebSocketHelper(_ref).stream.onData((event) {
       // print("Acc Linking verification start");
       // print(event);
       final data = jsonDecode(event);

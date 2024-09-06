@@ -65,7 +65,9 @@ class SelectInstitutionPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 List<Bank> prefBanks = [];
                 for (var e in Constants.preferredFips) {
-                  prefBanks.add(notifier.banks.where((f) => f.fipId == e).first);
+                  if (notifier.banks.where((f) => f.fipId == e).isNotEmpty) {
+                    prefBanks.add(notifier.banks.where((f) => f.fipId == e).first);
+                  }
                 }
                 return ProviderScope(parent: mainContainer, child: BankLogo(bank: prefBanks[index],));
               },
