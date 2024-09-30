@@ -17,32 +17,34 @@ import '../../../../core/utilities/websocket_helper.dart';
 
 final authNotifierProvider = ChangeNotifierProvider((ref) => AuthNotifier(ref));
 
-class AuthNotifier extends ChangeNotifier{
+class AuthNotifier extends ChangeNotifier {
   final Ref _ref;
   AuthNotifier(this._ref);
 
   ConsentNotifier get consentNotifier => _ref.read(consentNotifierProvider);
   UserInfo get userInfo => _ref.read(userInfoProvider);
-  SelectInstitutionNotifier get selectInstitute => _ref.read(selectInstitutionNotifierProvider);
-  SelectMutualFundNotifier get mfNotifierProvider => _ref.read(selectMfNotifierProvider);
+  SelectInstitutionNotifier get selectInstitute =>
+      _ref.read(selectInstitutionNotifierProvider);
+  SelectMutualFundNotifier get mfNotifierProvider =>
+      _ref.read(selectMfNotifierProvider);
 
   String? _otpRef;
 
   String? _otp;
   String get otp => _otp ?? "";
-  set otp(String val){
+  set otp(String val) {
     _otp = val;
     notifyListeners();
   }
 
   bool _loading = false;
   bool get loading => _loading;
-  set loading(bool val){
+  set loading(bool val) {
     _loading = val;
     notifyListeners();
   }
 
-  sendOtp(){
+  sendOtp() {
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.sendOtpURN),
       "payload": {
@@ -63,15 +65,12 @@ class AuthNotifier extends ChangeNotifier{
     });
   }
 
-  verifyOtp(BuildContext context, VoidCallback onDone){
+  verifyOtp(BuildContext context, VoidCallback onDone) {
     // log("Starting OTP verification");
     loading = true;
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.verifyOtpURN),
-      "payload": {
-        "otpReference": _otpRef,
-        "otp": otp
-      }
+      "payload": {"otpReference": _otpRef, "otp": otp}
     };
 
     WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
@@ -82,15 +81,14 @@ class AuthNotifier extends ChangeNotifier{
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         _ref.read(userInfoProvider.notifier).state.sid = data['header']['sid'];
-        _ref.read(userInfoProvider.notifier).state.userId = data['payload']['userId'];
-        if(userInfo.sid != null){
-          consentNotifier.consentRequestDetails(
-            onDone: (){
-              onDone();
-            }
-          );
+        _ref.read(userInfoProvider.notifier).state.userId =
+            data['payload']['userId'];
+        if (userInfo.sid != null) {
+          consentNotifier.consentRequestDetails(onDone: () {
+            onDone();
+          });
         }
-      }else{
+      } else {
         // log("Failure ${data['payload']['message']}");
         /// "status":"FAILURE","message":"Otp validation failed."
         AppSnackBar.show(data['payload']['message'], context);
@@ -99,12 +97,10 @@ class AuthNotifier extends ChangeNotifier{
     });
   }
 
-  logout(VoidCallback onDone){
+  logout(VoidCallback onDone) {
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.logoutURN),
-      "payload": {
-        "userId":Constants.userId(userInfo.mobileNo!)
-      }
+      "payload": {"userId": Constants.userId(userInfo.mobileNo!)}
     };
 
     WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
@@ -126,10 +122,9 @@ class AuthNotifier extends ChangeNotifier{
         _ref.read(selectInstitutionNotifierProvider).clear();
       }
     });
-
   }
 
-  getConfig({required VoidCallback onDone}){
+  getConfig({required VoidCallback onDone}) {
     Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).emptyWsHeader(Constants.configURN),
       "payload": {
@@ -138,7 +133,8 @@ class AuthNotifier extends ChangeNotifier{
       }
     };
 
-    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(Constants.websocketWebApiUrl(userInfo.devMode!)));
+    WebSocketChannel channel = WebSocketChannel.connect(
+        Uri.parse(Constants.websocketWebApiUrl(userInfo.devMode!)));
 
     channel.sink.add(jsonEncode(body));
 
@@ -146,15 +142,18 @@ class AuthNotifier extends ChangeNotifier{
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         log("success", time: DateTime.now());
-        final List<String> res = (data['payload']['entityConfig']['excludeFIP'] as List).map<String>((e) => e.toString()).toList();
+        final List<String> res =
+            (data['payload']['entityConfig']['excludeFIP'] as List)
+                .map<String>((e) => e.toString())
+                .toList();
         selectInstitute.excludedFips = res;
+        selectInstitute.excludedFips.add("fiplive@canarabank");
         onDone();
         channel.sink.close();
-      }else{
+      } else {
         channel.sink.close();
         // AppSnackBar.show(data['payload']['message'], context);
       }
     });
   }
-
 }
