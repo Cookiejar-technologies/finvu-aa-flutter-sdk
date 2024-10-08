@@ -51,53 +51,41 @@ class VerifyAccountNotifier extends ChangeNotifier{
   }
 
   accLinking({required BuildContext context, required VoidCallback onOtpSent, required VoidCallback ifVerified}){
-    Map<String, dynamic> body = {
+    getUserLinkedAccounts(() {
+      List<Account> accountsTobeLinked = selectedAccounts.where((e) => e.linkRefNumber == null).toList();
+      if (accountsTobeLinked.isEmpty) {
+        ifVerified();
+        return;
+      }
+
+
+      Map<String, dynamic> body = {
       "header": HeaderBuilder(_ref).wsHeader(Constants.accLinkingURN),
-      "payload": {
-        "ver": Constants.version,
-        "timestamp": Formats.formatZ(DateTime.now()),
-        "txnid": const Uuid().v4(),
-        "FIPDetails": {
-          "fipId": selectInstNotifier.selectedBank!.fipId,
-          "fipName": selectInstNotifier.selectedBank!.fipName
-        },
-        "Customer": {
-          // "id": Constants.userId(mobileNo),
-          "id": _ref.read(userInfoProvider).userId,
-          "Accounts": selectedAccounts.map((e) => e.toJson()).toList()
-        }
-      }
-    };
-
-    // print(body);
-
-    WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
-
-    WebSocketHelper(_ref).stream.onData((event) {
-      // print("Acc Linking start");
-      // print(event);
-      final data = jsonDecode(event);
-      if (Utils.isSuccess(data)) {
-        _otpRef = data['payload']['RefNumber'];
-        onOtpSent();
-      }else if(data['payload']['RefNumber'] == null){
-        //ge user linked accounts and get linkRefNumber
-        getUserLinkedAccounts((){
-          if(selectedAccounts.where((e) => e.linkRefNumber == null).isEmpty){
-            AppSnackBar.show(data['payload']['message'], context);
-            ifVerified();
-          }else{
-            final accs = selectedAccounts.where((e) => e.linkRefNumber == null).map((e) => e.maskedAccNumber).join(", ");
-            AppSnackBar.show("One or more selected accounts are not verified and linked: $accs", context);
+          "payload": {
+          "ver": Constants.version,
+          "timestamp": Formats.formatZ(DateTime.now()),
+          "txnid": const Uuid().v4(),
+          "FIPDetails": {
+            "fipId": selectInstNotifier.selectedBank!.fipId,
+            "fipName": selectInstNotifier.selectedBank!.fipName
+          },
+          "Customer": {
+            "id": _ref.read(userInfoProvider).userId,
+            "Accounts": accountsTobeLinked
           }
-        });
-        // "status":"FAILURE","message":"You have already linked this account(s): XXXXX2396  "
+        }
+      };
 
-        //If account is already linked, dont show OTP bottom sheet. Navigate to consent page
-      }else{
-        // "status":"FAILURE","message":"Token incorrect."
-        AppSnackBar.show(data['payload']['message'], context);
-      }
+      WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
+      WebSocketHelper(_ref).stream.onData((event) {
+        final data = jsonDecode(event);
+        if (Utils.isSuccess(data)) {
+          _otpRef = data['payload']['RefNumber'];
+          onOtpSent();
+        } else {
+           AppSnackBar.show(data['payload']['message'], context);
+        }
+      });
     });
   }
 
@@ -113,8 +101,6 @@ class VerifyAccountNotifier extends ChangeNotifier{
     WebSocketHelper(_ref).channel.sink.add(jsonEncode(body));
 
     WebSocketHelper(_ref).stream.onData((event) {
-      // print("User linked accounts");
-      // log(event);
       final data = jsonDecode(event);
       if (Utils.isSuccess(data)) {
         linkedAccounts = data['payload']['LinkedAccounts'].map<LinkedAccount>((e) => LinkedAccount.fromJson(e)).toList();
@@ -124,10 +110,10 @@ class VerifyAccountNotifier extends ChangeNotifier{
               selectedAccounts.where((acc) => acc.accRefNumber == e.accRefNumber).first.linkRefNumber = e.linkRefNumber;
             }
           }
-          // print("Yoooo! Got the linkRefNo Bro");
-          onDone();
         }
       }
+
+      onDone();
     });
   }
 

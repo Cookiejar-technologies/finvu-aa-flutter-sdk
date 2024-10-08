@@ -120,7 +120,8 @@ class _VerifyMobileMFState extends ConsumerState<VerifyMobileMF> {
                     onPressed: timer.isActive ? null : (){
                       notifier.mfAccLinking(
                         context: context,
-                        onOtpSent: (){}
+                        onOtpSent: (){},
+                        ifVerified: (){}
                       );
                     },
                     child: const Text("Resend OTP"),

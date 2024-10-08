@@ -1,5 +1,6 @@
 import 'package:finvu_bank_pfm/core/utilities/sizes.dart';
 import 'package:finvu_bank_pfm/core/utilities/styleguide.dart';
+import 'package:finvu_bank_pfm/presentation/pages/consent/stocks_consent_page.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_stocks/providers/select_stocks_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_stocks/verify_mobile_stocks.dart';
 import 'package:finvu_bank_pfm/presentation/widgets/consent_details_button.dart';
@@ -46,7 +47,13 @@ class _SelectStocksPageState extends ConsumerState<SelectStocksPage> {
                   )
                 )
               );
-            }
+            },
+            ifVerified: (){
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const StocksConsentPage()))
+              );
+            } 
           );
         },
       ),
