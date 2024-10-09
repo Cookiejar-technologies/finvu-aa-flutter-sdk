@@ -25,7 +25,7 @@ class _FetchLoadingPageState extends ConsumerState<FetchLoadingPage> {
       Future.delayed(const Duration(seconds: 2)).then((value) {
         if (ref.read(repositoryProvider).onDone != null) {
           ref.read(repositoryProvider).onDone!();
-        }else{
+        }else{      
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pop(context);

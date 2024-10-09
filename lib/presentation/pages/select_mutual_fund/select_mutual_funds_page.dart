@@ -1,5 +1,7 @@
 import 'package:finvu_bank_pfm/core/utilities/sizes.dart';
 import 'package:finvu_bank_pfm/core/utilities/styleguide.dart';
+import 'package:finvu_bank_pfm/presentation/pages/consent/consent_page.dart';
+import 'package:finvu_bank_pfm/presentation/pages/consent/mf_consent_page.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_mutual_fund/providers/select_mutual_fund_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_mutual_fund/verify_mobile_mf.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_mutual_fund/widgets/mf_card.dart';
@@ -47,10 +49,16 @@ class _SelectMutualFundsPageState extends ConsumerState<SelectMutualFundsPage> {
                   )
                 )
               );
+            },
+            ifVerified: (){
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const MfConsentPage()))
+              );
             }
           );
         },
-      ),
+      ), 
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(

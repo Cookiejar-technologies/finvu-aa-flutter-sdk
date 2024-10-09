@@ -119,7 +119,8 @@ class _VerifyMobileStocksState extends ConsumerState<VerifyMobileStocks> {
                     onPressed: timer.isActive ? null : (){
                       notifier.stockAccLinking(
                         context: context,
-                        onOtpSent: (){}
+                        onOtpSent: (){},
+                        ifVerified: (){},
                       );
                     },
                     child: const Text("Resend OTP"),
