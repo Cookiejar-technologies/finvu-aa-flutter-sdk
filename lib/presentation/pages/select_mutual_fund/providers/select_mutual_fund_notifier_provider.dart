@@ -113,7 +113,6 @@ class SelectMutualFundNotifier extends ChangeNotifier {
   mfAccLinking({required BuildContext context, required VoidCallback onOtpSent, required VoidCallback ifVerified}){
     getUserLinkedAccounts(() {
       List<Account> accountsTobeLinked = selectedAccounts.where((e) => e.linkRefNumber == null).toList();
-      log("${accountsTobeLinked.length}");
       if (accountsTobeLinked.isEmpty) {
         ifVerified();
         return;
