@@ -54,4 +54,5 @@ class Labels{
   static String statementFreq(String freq) => "Statement will be fetched $freq";
   static String informationFetchTimes(String freq1, String freq2) => "Information fetch $freq1 times a $freq2";
   static String untilDate(String date) => "Until $date";
+  static String resendOtpIn(int time) => 'Resend OTP in ${time.toString().padLeft(2, '0')} seconds';
 }
