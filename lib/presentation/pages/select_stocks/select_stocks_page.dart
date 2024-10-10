@@ -57,64 +57,66 @@ class _SelectStocksPageState extends ConsumerState<SelectStocksPage> {
           );
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.bgGreen,
-                borderRadius: BorderRadius.circular(12)
-              ),
-              child: const Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.info_outline, color: Colors.white,),
-                  Sizes.w12,
-                  Expanded(
-                    child: Text("You'll receive an OTP from each of the selected RTA's.",
-                      style: TextStyle(
-                        color: Colors.white
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.bgGreen,
+                  borderRadius: BorderRadius.circular(12)
+                ),
+                child: const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.white,),
+                    Sizes.w12,
+                    Expanded(
+                      child: Text("You'll receive an OTP from each of the selected RTA's.",
+                        style: TextStyle(
+                          color: Colors.white
+                        ),
                       ),
                     ),
-                  ),
-                  // Icon(Icons.close,
-                  //   color: Colors.white,
-                  // )
-                ],
+                    // Icon(Icons.close,
+                    //   color: Colors.white,
+                    // )
+                  ],
+                ),
               ),
-            ),
-            Sizes.h24,
-            const Text("Select RTA's and depositories to link your Mutual Funds",
-              style: AppTypography.h2,
-            ),
-            Sizes.h16,
-            ...notifier.accounts.map((e) {
-              return CheckboxListTile(
-                activeColor: AppColors.primary,
-                title: Text(e.maskedAccNumber),
-                subtitle: Text(e.accType),
-                value: notifier.selectedAccounts.where((f) => f.accRefNumber == e.accRefNumber).isNotEmpty,
-                onChanged: (v){
-                  if(notifier.selectedAccounts.where((f) => f.accRefNumber == e.accRefNumber).isEmpty){
-                    notifier.addAccount(e);
-                  }else{
-                    notifier.removeAccount(e);
+              Sizes.h24,
+              const Text("Select RTA's and depositories to link your Mutual Funds",
+                style: AppTypography.h2,
+              ),
+              Sizes.h16,
+              ...notifier.accounts.map((e) {
+                return CheckboxListTile(
+                  activeColor: AppColors.primary,
+                  title: Text(e.maskedAccNumber),
+                  subtitle: Text(e.accType),
+                  value: notifier.selectedAccounts.where((f) => f.accRefNumber == e.accRefNumber).isNotEmpty,
+                  onChanged: (v){
+                    if(notifier.selectedAccounts.where((f) => f.accRefNumber == e.accRefNumber).isEmpty){
+                      notifier.addAccount(e);
+                    }else{
+                      notifier.removeAccount(e);
+                    }
                   }
-                }
-              );
-              // return MfCard(
-              //   acc: e,
-              //   showAccCheckBox: true,
-              //   isLinked: false,
-              // );
-            },),
-            Sizes.h24,
-            const ConsentDetailsButton()
-          ],
+                );
+                // return MfCard(
+                //   acc: e,
+                //   showAccCheckBox: true,
+                //   isLinked: false,
+                // );
+              },),
+              Sizes.h24,
+              const ConsentDetailsButton()
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }
