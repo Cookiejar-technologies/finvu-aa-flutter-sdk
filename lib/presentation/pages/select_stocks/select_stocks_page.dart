@@ -49,7 +49,7 @@ class _SelectStocksPageState extends ConsumerState<SelectStocksPage> {
               );
             },
             ifVerified: (){
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const StocksConsentPage()))
               );

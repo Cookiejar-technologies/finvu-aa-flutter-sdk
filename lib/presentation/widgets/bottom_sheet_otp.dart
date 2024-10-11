@@ -111,7 +111,7 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
                     if (formKey.currentState!.validate()) {
                       notifier.verifyAccLinking(context, (){
                         Navigator.pop(context);
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ProviderScope(parent:container, child: const ConsentPage()))
                         );
