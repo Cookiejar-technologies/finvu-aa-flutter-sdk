@@ -71,7 +71,7 @@ class VerifyBankAccount extends ConsumerWidget {
                             );
                           },
                           ifVerified: (){
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const ConsentPage()))
                             );

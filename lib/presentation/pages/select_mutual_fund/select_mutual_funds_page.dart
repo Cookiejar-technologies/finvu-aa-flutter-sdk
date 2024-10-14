@@ -51,7 +51,7 @@ class _SelectMutualFundsPageState extends ConsumerState<SelectMutualFundsPage> {
               );
             },
             ifVerified: (){
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProviderScope(parent: container, child: const MfConsentPage()))
               );
