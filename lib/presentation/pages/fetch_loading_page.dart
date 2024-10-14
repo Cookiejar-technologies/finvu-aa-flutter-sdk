@@ -22,7 +22,7 @@ class _FetchLoadingPageState extends ConsumerState<FetchLoadingPage> {
     // TODO: implement initState
     super.initState();
     ref.read(authNotifierProvider).logout(() {
-      Future.delayed(const Duration(seconds: 2)).then((value) {
+      Future.delayed(const Duration(seconds: 3)).then((value) {
         if (ref.read(repositoryProvider).onDone != null) {
           ref.read(repositoryProvider).onDone!();
         }else{      
