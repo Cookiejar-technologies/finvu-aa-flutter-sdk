@@ -7,6 +7,7 @@ import 'package:finvu_bank_pfm/presentation/pages/consent/consent_page.dart';
 import 'package:finvu_bank_pfm/presentation/pages/consent/mf_consent_page.dart';
 import 'package:finvu_bank_pfm/presentation/pages/select_mutual_fund/providers/select_mutual_fund_notifier_provider.dart';
 import 'package:finvu_bank_pfm/presentation/providers/user_info_provider.dart';
+import 'package:finvu_bank_pfm/presentation/widgets/app_buttons.dart';
 import 'package:finvu_bank_pfm/presentation/widgets/footer_with_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,14 +24,23 @@ class _VerifyMobileMFState extends ConsumerState<VerifyMobileMF> {
 
   final TextEditingController _controller = TextEditingController();
 
-  late Timer timer;
+  Timer? timer;
   int time = 30;
+  bool showResendButton = false;
 
-  startTimer()async{
+  startTimer() async {
+    setState(() {
+      time = 30;
+      showResendButton = false;
+    });
+
+    timer?.cancel();
+
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if(time == 0){
         setState(() {
           timer.cancel();
+          showResendButton = true;
         });
       }else{
         setState(() {
@@ -50,7 +60,7 @@ class _VerifyMobileMFState extends ConsumerState<VerifyMobileMF> {
   @override
   void dispose() {
     // TODO: implement dispose
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -114,22 +124,26 @@ class _VerifyMobileMFState extends ConsumerState<VerifyMobileMF> {
                 ),
               ),
               Sizes.h8,
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: timer.isActive ? null : (){
-                      notifier.mfAccLinking(
-                        context: context,
-                        onOtpSent: (){},
-                        ifVerified: (){}
-                      );
-                    },
-                    child: const Text("Resend OTP"),
-                  ),
-                  Text(Labels.inTimeSecs(time),
-                    style: AppTypography.h3bold.copyWith(color: AppColors.green),
-                  )
-                ],
+              SizedBox(
+                height: 48, // Fixed height to accommodate both text and button
+                child: Center(
+                  child: showResendButton
+                    ? AppTextButton(
+                        label: Labels.resendOtp,
+                        onPressed: () {
+                          notifier.mfAccLinking(
+                            context: context,
+                            onOtpSent: (){},
+                            ifVerified: (){}
+                          );
+                          startTimer();
+                        },
+                      )
+                    : Text(
+                        Labels.resendOtpIn(time),
+                        style: AppTypography.h3bold.copyWith(color: AppColors.green),
+                      ),
+                ),
               ),
             ],
           ),

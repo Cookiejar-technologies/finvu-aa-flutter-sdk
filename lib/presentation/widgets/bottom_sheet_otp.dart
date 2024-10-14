@@ -20,15 +20,24 @@ class OtpWidget extends ConsumerStatefulWidget {
 
 class _OtpWidgetState extends ConsumerState<OtpWidget> {
 
-  late Timer timer;
+  Timer? timer;
   int time = 30;
+  bool showResendButton = false;
   final formKey = GlobalKey<FormState>();
   
-  startTimer()async{
+  startTimer() async {
+    setState(() {
+      time = 30;
+      showResendButton = false;
+    });
+
+    timer?.cancel();
+
     timer = Timer.periodic(const Duration(seconds: 1), (timer) { 
       if(time == 0){
         setState(() {
           timer.cancel();
+          showResendButton = true;
         });
       }else{
         setState(() {
@@ -48,7 +57,7 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
   @override
   void dispose() {
     // TODO: implement dispose
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -90,18 +99,26 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextButton(
-                  label: Labels.resendOtp,
-                  onPressed: timer.isActive ? null : (){
-                    notifier.accLinking(
-                      context: context,
-                      onOtpSent: (){},
-                      ifVerified: (){}
-                    );
-                  },
-                ),
-                Text(Labels.inTimeSecs(time),
-                  style: AppTypography.h3bold.copyWith(color: AppColors.green),
+                SizedBox(
+                  height: 48, // Fixed height to accommodate both text and button
+                  child: Center(
+                    child: showResendButton
+                      ? AppTextButton(
+                          label: Labels.resendOtp,
+                          onPressed: () {
+                            notifier.accLinking(
+                              context: context,
+                              onOtpSent: (){},
+                              ifVerified: (){}
+                            );
+                            startTimer();
+                          },
+                        )
+                      : Text(
+                          Labels.resendOtpIn(time),
+                          style: AppTypography.h3bold.copyWith(color: AppColors.green),
+                        ),
+                  ),
                 ),
                 Sizes.w12,
                 AppButton(

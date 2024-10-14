@@ -24,15 +24,24 @@ class VerifyMobilePage extends ConsumerStatefulWidget {
 
 class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
 
-  late Timer timer;
+  Timer? timer;
   int time = 30;
+  bool showResendButton = false;
   final formKey = GlobalKey<FormState>();
   
-  startTimer()async{
+  startTimer() async {
+    setState(() {
+      time = 30;
+      showResendButton = false;
+    });
+
+    timer?.cancel();
+
     timer = Timer.periodic(const Duration(seconds: 1), (timer) { 
       if(time == 0){
         setState(() {
           timer.cancel();
+          showResendButton = true;
         });
       }else{
         setState(() {
@@ -52,7 +61,7 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -84,7 +93,6 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
             Form(
               key: formKey,
               child: TextFormField(
-                initialValue: notifier.otp,
                 onChanged: (val){
                   notifier.otp = val;
                 },
@@ -100,19 +108,22 @@ class _VerifyMobilePageState extends ConsumerState<VerifyMobilePage> {
               ),
             ),
             Sizes.h8,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppTextButton(
-                  label: Labels.resendOtp,
-                  onPressed: timer.isActive ? null : (){
-                    notifier.sendOtp();
-                  },
-                ),
-                Text(Labels.inTimeSecs(time),
-                  style: AppTypography.h3bold.copyWith(color: AppColors.green),
-                )
-              ],
+            SizedBox(
+              height: 48, // Fixed height to accommodate both text and button
+              child: Center(
+                child: showResendButton
+                  ? AppTextButton(
+                      label: Labels.resendOtp,
+                      onPressed: () {
+                        notifier.sendOtp();
+                        startTimer();
+                      },
+                    )
+                  : Text(
+                      Labels.resendOtpIn(time),
+                      style: AppTypography.h3bold.copyWith(color: AppColors.green),
+                    ),
+              ),
             ),
             Sizes.h32,
             notifier.loading ? const Center(child: CircularProgressIndicator()) :
