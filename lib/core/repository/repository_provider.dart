@@ -50,7 +50,6 @@ class Repository {
       List<Bank> banks = await getFIP();
       log("Authentication successful & Consent obtained");
       selectInstitute.banks = banks;
-      auth.sendOtp();
     } on Exception catch (e) {
       throw Exception(e);
     }
